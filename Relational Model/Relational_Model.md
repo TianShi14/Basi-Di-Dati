@@ -165,3 +165,4 @@ Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merit
 <p align="center">
     <img src = "./images/Ex5.png">
 </p>
+
