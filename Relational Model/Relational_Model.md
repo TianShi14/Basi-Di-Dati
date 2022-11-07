@@ -166,3 +166,34 @@ Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merit
     <img src = "./images/Ex5.png">
 </p>
 
+Per questo esempio ci rifacciamo all'esercizio precedente per quanto concerne la relazione Only One tra Employees e Departments:
+
+~~~sql
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    PRIMARY KEY(ssn)
+);
+CREATE TABLE Dept_Mgr
+(
+    did INTEGER,
+    dname VARCHAR(20),
+    budget INTEGER,
+    ssn CHAR(11) NOT NULL, -- aggiungiamo il NOT NULL per la relazione Only One
+    since DATE,
+    PRIMARY KEY(did),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees
+        ON DELETE NO ACTION /* sebbene sia il valore di default, si ricorda che
+                            la sua utilità sia quella di prevenire che, ad 
+                            esempio, eliminare un manager dal database porti
+                            alla cancellazione dell'intero dipartimento*/
+);
+~~~
+
+Qualora volessimo invece esplicitare la relazione One or More lo risolveremmo in tal modo:
+~~~sql
+
+~~~
