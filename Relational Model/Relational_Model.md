@@ -2,8 +2,6 @@
 
 ## <center> ER to Relational esempi **vitali** </center>
 
-#
-
 # **INDEX**
 1. [Entity Set](#entity-set)
 2. [Relationship Set](#relationship-set)
@@ -14,8 +12,6 @@
 #
 
 ## **Entity Set**
-
-#
 
 <p align="center">
     <img width = "60%" src = "./images/Ex1.png">
@@ -36,8 +32,6 @@ CREATE TABLE Employees
 ~~~
 
 ## **Relationship Set**
-
-# 
 
 <p align="center">
     <img src = "./images/Ex2.png">
@@ -78,8 +72,6 @@ CREATE TABLE WorksIn
 
 ## **Self-Relationship**
 
-#
-
 <p align="center">
     <img width="60%" src = "./images/Ex3.png">
 </p>
@@ -109,8 +101,6 @@ CREATE TABLE Reports_To
 ~~~
 
 ## **Zero or One Constraint**
-
-#
 
 <p align="center">
     <img src = "./images/Ex4.png">
@@ -171,8 +161,6 @@ CREATE TABLE Dept_Mgr
 Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merito ad **entrambe le tabelle** viste precedentemente, ovvero Employees e Department, e tale approccio toglie la necessità di eseguire delle query per poter combinare le due informazioni. Esso però ha un lieve svantaggio rispetto al primo, poichè se molti dipartimenti non dispongono di un manager essi devono essere comunque inizializzati con valori per *ssn* **null**, il che non causava un problema precedentemente. Però preferiamo comunque il secondo metodo poichè l'uso delle query per combinare le informazioni costituiscono un processo **lungo e lento**.
 
 ## **One or More | Only One**
-
-#
 
 <p align="center">
     <img src = "./images/Ex5.png">
