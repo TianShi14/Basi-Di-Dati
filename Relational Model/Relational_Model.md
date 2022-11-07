@@ -193,7 +193,15 @@ CREATE TABLE Dept_Mgr
 );
 ~~~
 
-Qualora volessimo invece esplicitare la relazione One or More lo risolveremmo in tal modo:
-~~~sql
+Qui sorge un problema fondamentale dell'SQL e come esso si relaziona con i diagrammi ER, in quanto un **costraint** come quello imposto sulla relazione WorksIn non possiede un effettiva implementazione. 
 
+Analizziamo perchè: supponiamo di voler associare ad ogni valore di Departments **uno o più** valori di Employees. Facendo cross-referencing con ciò che si è visto fin'ora verrebbe, logicamente, nella relazione WorksIn da implementare un qualcosa di simile:
+~~~sql
+CREATE TABLE WorksIn
+(
+    did INTEGER NOT NULL,
+            .
+            .
+            .
 ~~~
+Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valore nullo di *did*.  
