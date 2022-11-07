@@ -8,6 +8,7 @@
 3. [Self-Relationship](#self-relationship)
 4. [Zero or One Constraint](#zero-or-one-constraint)
 5. [One or More | Only One](#one-or-more--only-one)
+6. [Weak Entity Set](#weak-entity-set)
 
 #
 
@@ -204,4 +205,33 @@ CREATE TABLE WorksIn
             .
             .
 ~~~
-Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valore nullo di *did*.  
+Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valore nullo di *did*. Ora rimane da implementare 
+# <center> DA RIVEDERE
+
+## **Weak Entity Set**
+
+<p align="center">
+    <img src = "./images/Ex6.png">
+</p>
+
+Per un'implementazione di questo tipo non serve altrp che fare riferimento all'impostazione del [Only One](#one-or-more--only-one) visto precedentemente. Infatti, abbiamo già la parte inerente l'associazione di un solo elemento di Dependents ad uno di Employees, ora ci manca fare in modo che ci sia solo una partial key in gioco da parte del **weak entity set** e che il weak entity decada nel caso nel quale Employees debba essere eliminato dal Database:
+~~~sql
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    PRIMARY KEY(ssn)
+);
+
+CREATE TABLE Dep_Pol
+(
+    dname VARCHAR(20),
+    age INTEGER,
+    ssn CHAR(11),
+    PRIMARY KEY(dname, ssn),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees
+        ON DELETE CASCADE
+);
+~~~
