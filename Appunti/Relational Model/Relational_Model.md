@@ -163,6 +163,7 @@ CREATE TABLE Employees
     lot INTEGER,
     PRIMARY KEY(ssn)
 );
+
 CREATE TABLE Dept_Mgr -- una tabella sia Departments che Manager
 (
     did INTEGER,
@@ -196,6 +197,7 @@ CREATE TABLE Employees
     lot INTEGER,
     PRIMARY KEY(ssn)
 );
+
 CREATE TABLE Dept_Mgr
 (
     did INTEGER,
@@ -343,6 +345,7 @@ CREATE TABLE Hourly_Emps
     hours_worked INTEGER,
     PRIMARY KEY(ssn)
 );
+
 CREATE TABLE Contract_Emps
 (
     ssn CHAR(11),
@@ -363,3 +366,132 @@ abbia due lavori ma sticazzi, almeno non hai 300 null */
 </picture>
 
 #
+
+Qua è stato spiegato **ammerda** quindi bah:
+~~~sql
+CREATE TABLE Projects
+(
+    pid INTEGER,
+    started_on DATE,
+    pbudget INTEGER,
+    PRIMARY KEY(pid)
+);
+
+CREATE TABLE Departments
+(
+    did INTEGER,
+    dname VARCHAR(20),
+    dbudget INTEGER,
+    PRIMARY KEY(did)
+);
+
+CREATE TABLE Sponsors
+(
+    pid INTEGER,
+    did INTEGER,
+    since DATE,
+    PRIMARY KEY(pid, did),
+    FOREIGN KEY(pid)
+        REFERENCES Projects,
+    FOREIGN KEY(did)
+        REFERENCES Departments
+);
+
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    PRIMARY KEY(ssn)
+);
+
+CREATE TABLE Monitors
+(
+    ssn CHAR(11),
+    pid INTEGER,
+    did INTEGER,
+    until DATE,
+    PRIMARY KEY(ssn, pid, did),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees,
+    FOREIGN KEY(pid, did)
+        REFERENCES Sponsors
+);
+~~~
+
+## Esercizio Aggiuntivo propedeutico
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex9.png">
+  <img width="100%" src="./images/Light%20Mode/Ex9.png">
+</picture>
+
+#
+
+~~~sql
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    PRIMARY KEY(ssn)
+);
+
+CREATE TABLE Policies
+(
+    policy_id INTEGER,
+    cost REAL,
+    ssn CHAR(11) NOT NULL,
+    PRIMARY KEY(policy_id),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Dependents
+(
+    dname VARCHAR(20),
+    age INTEGER,
+    policy_id INTEGER,
+    PRIMARY KEY(policy_id, dname),
+    FOREIGN KEY(policy_id)
+        REFERENCES Policies
+        ON DELETE CASCADE
+)
+~~~
+Come cambia qualora le policies fossero implementate come weak entity:
+~~~sql
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    PRIMARY KEY(ssn)
+);
+
+CREATE TABLE Policies
+(
+    policy_id INTEGER,
+    cost REAL,
+    ssn CHAR(11) NOT NULL,
+    PRIMARY KEY(policy_id, ssn),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Dependents
+(
+    dname VARCHAR(20),
+    age INTEGER,
+    ssn CHAR(11),
+    policy_id INTEGER NOT NULL,
+    PRIMARY KEY(policy_id, dname, ssn),
+    FOREIGN KEY(policy_id, ssn)
+        REFERENCES Policies
+        ON DELETE CASCADE
+)
+~~~
+## Note Finali
+
+Per provare implementazioni simili consultare questo [link](https://www.db-fiddle.com) ricordandosi di cambiare a PostgreSQL 14+ in alto a sinistra.
