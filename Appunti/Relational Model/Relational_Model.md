@@ -15,12 +15,12 @@
 ## **Entity Set**
 
 
-<center>
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" width="75%" srcset="./images/Dark Mode/Ex1.png">
   <img width="75%" src="./images/Light Mode/Ex1.png">
 </picture>
-</center>
+</p>
 
 Banalmente una struttura standard di un **entity set**, di cui andiamo a definire parametri, chiave primaria e simili
 
@@ -38,12 +38,12 @@ CREATE TABLE Employees
 
 ## **Relationship Set**
 
-<center>
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex2.png">
   <img width="100%" src="./images/Light Mode/Ex2.png">
 </picture>
-</center>
+</p>
 
 Relazione molti a molti con attributo nel **relationship set**
 
@@ -80,12 +80,12 @@ CREATE TABLE WorksIn
 
 ## **Self-Relationship**
 
-<center>
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" width="60%" srcset="./images/Dark Mode/Ex3.png">
   <img width="60%" src="./images/Light Mode/Ex3.png">
 </picture>
-</center>
+</p>
 
 Di facile intesa, molto straightforward
 
@@ -113,12 +113,12 @@ CREATE TABLE Reports_To
 
 ## **Zero or One Constraint**
 
-<center>
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex4.png">
   <img width="100%" src="./images/Light Mode/Ex4.png">
 </picture>
-</center>
+</p>
 
 Ora si inizia a piangere, versione 1 è valida ma poco efficiente, ora vediamo perchè
 
@@ -175,12 +175,12 @@ Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merit
 
 ## **One or More | Only One**
 
-<center>
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex5.png">
   <img width="100%" src="./images/Light Mode/Ex5.png">
 </picture>
-</center>
+</p>
 
 Per questo esempio ci rifacciamo all'esercizio precedente per quanto concerne la relazione Only One tra Employees e Departments:
 
@@ -225,12 +225,12 @@ Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valor
 
 ## **Weak Entity Set**
 
-<center>
+<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex6.png">
   <img width="100%" src="./images/Light Mode/Ex6.png">
 </picture>
-</center>
+</p>
 
 Per un'implementazione di questo tipo non serve altrp che fare riferimento all'impostazione del [Only One](#one-or-more--only-one) visto precedentemente. Infatti, abbiamo già la parte inerente l'associazione di un solo elemento di Dependents ad uno di Employees, ora ci manca fare in modo che ci sia solo una partial key in gioco da parte del **weak entity set** e che il weak entity decada nel caso nel quale Employees debba essere eliminato dal Database:
 ~~~sql
