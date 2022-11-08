@@ -1,6 +1,6 @@
-# <center> Relational Algebra in and out of SQL</center>
+# <p align = "center"> Relational Algebra in and out of SQL </p>
 
-###### <center> Alcuni simboli non sono precisissimi perchè Markdown non è LaTeX e la liberia è limitata, si capisce comunque però quindi poche lagne
+###### <p align = "center"> Alcuni simboli non sono precisissimi perchè Markdown non è LaTeX e la liberia è limitata, si capisce comunque però quindi poche lagne </p>
 
 #
 # INDEX
