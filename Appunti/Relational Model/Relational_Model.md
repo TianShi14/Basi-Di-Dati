@@ -9,6 +9,8 @@
   - [**Self-Relationship**](#self-relationship)
   - [**Zero or One Constraint**](#zero-or-one-constraint)
   - [**One or More | Only One**](#one-or-more--only-one)
+  - [**Weak Entity Set**](#weak-entity-set)
+  - [**Class Hierarchies**](#class-hierarchies)
 
 #
 
@@ -101,7 +103,8 @@ CREATE TABLE Reports_To
                               a due set distinti*/
     PRIMARY KEY(subordinate_ssn, supervisor_ssn), 
     FOREIGN KEY(subordinate_ssn)
-        REFERENCES Employees(ssn),
+        REFERENCES Employees(ssn), /*da notare come specifichiamo l'attributo da referenziare 
+                                   poichè non hanno lo stesso nome*/
     FOREIGN KEY(supervisor_ssn)
         REFERENCES Employees(ssn) -- referenzi due volte con la stessa key lo stesso entity
 );
@@ -246,3 +249,95 @@ CREATE TABLE Dep_Pol
 
 ## **Class Hierarchies**
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex7.png">
+  <img width="100%" src="./images/Light%20Mode/Ex7.png">
+</picture>
+
+Dobbiamo introdurre un nuovo concetto per comprendere con che tipo di implementazione vogliamo sperimentare quando ci ritroviamo un ISA di fronte.  
+Partiamo dal primo esempio che riguarda **l'Overlap** costraint, in cui un Employee può essere sia un Hourly_Emp che un Contract_Emp che nessuna delle due:  
+
+~~~sql
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    PRIMARY KEY(ssn)
+);
+
+CREATE TABLE Contract_Emps -- banalmente hanno come attributo chiave quello della classe madre
+(
+    ssn CHAR(11),
+    contract_id INTEGER,
+    PRIMARY KEY(ssn),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees
+        ON DELETE CASCADE -- easy
+);
+
+CREATE TABLE Hourly_Emps
+(
+    ssn CHAR(11),
+    hourly_wages INTEGER,
+    hours_worked INTEGER,
+    PRIMARY KEY(ssn),
+    FOREIGN KEY(ssn)
+        REFERENCES Employees
+        ON DELETE CASCADE
+);
+~~~
+Ora vediamo il secondo esempio con il **Cover** costraint, per cui un Employee deve necessariamente essere o un Hourly_Emp o un Contract_Emp e non può essere entrambi o altro:
+~~~sql
+-- questo metodo fa cagare ma funziona, quindi
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    contract_id INTEGER,
+    hourly_wages INTEGER,
+    hours_worked INTEGER,
+    emp_role as ENUM('hourly','contract'), -- NOT NULL è di default (credo)
+    PRIMARY KEY(ssn)
+);
+/* in sostanza l'attributo emp_role determina a quale delle due "sottoclassi" appartiene,
+sebbene di conseguenza avremo tutti gli attributi da dover implementare per ogni tupla di employee
+dovendo dunque inizializzare troppi null per i miei gusti */
+~~~
+Facendo riferimento a quest'ultimo esempio, potremmo dunque determinare un **No Overlap No Cover**, sebbene quest'implementazione spreca memoria con tutti i null che vanno inseriti:
+~~~sql
+CREATE TABLE Employees
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    contract_id INTEGER,
+    hourly_wages INTEGER,
+    hours_worked INTEGER,
+    emp_role as ENUM('employee','hourly','contract'), -- aggiungiamo solo un ruolo generico 
+    PRIMARY KEY(ssn)
+);
+~~~
+Ora ci rimane solamente da ragionare sull'ultima ipotesi possibile, ovvero la Cover/Overlap combo, in cui un Employee può essere o un Hourly_Emp o un Contract_Emp o entrambi, e non nient'altro:
+~~~sql
+CREATE TABLE Hourly_Emps
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    hourly_wages INTEGER,
+    hours_worked INTEGER,
+    PRIMARY KEY(ssn)
+);
+CREATE TABLE Contract_Emps
+(
+    ssn CHAR(11),
+    ename VARCHAR(20),
+    lot INTEGER,
+    contract_id INTEGER,
+    PRIMARY KEY(ssn)
+);
+/* anche sto netodo fa un po' cagare perchè non hai modo di legare i due ssn qualora l'employee
+abbia due lavori ma sticazzi, almeno non hai 300 null*/
+~~~
