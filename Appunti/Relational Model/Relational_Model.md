@@ -16,8 +16,8 @@
 
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex1.png">
-  <img alt="No biggie" width="100%" src="./images/Light Mode/Ex1.png">
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex1.png">
+  <img alt="No biggie" width="100%" src="./images/Light%20Mode/Ex1.png">
 </picture>
 
 Banalmente una struttura standard di un **entity set**, di cui andiamo a definire parametri, chiave primaria e simili
