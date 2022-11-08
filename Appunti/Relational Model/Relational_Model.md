@@ -15,12 +15,12 @@
 ## **Entity Set**
 
 
-<p align="center">
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./images/Dark Mode/Ex1.png">
-  <img width="65%" src="./images/Light Mode/Ex1.png">
+  <source media="(prefers-color-scheme: dark)" width="65%" srcset="./images/Dark%20Mode/Ex1.png">
+  <img alt="No biggie" width="65%" src="./images/Light%20Mode/Ex1.png">
 </picture>
-</p>
+
 
 Banalmente una struttura standard di un **entity set**, di cui andiamo a definire parametri, chiave primaria e simili
 
