@@ -38,8 +38,8 @@ CREATE TABLE Employees
 
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex2.png">
-  <img width="100%" src="./images/Light Mode/Ex2.png">
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex2.png">
+  <img width="100%" src="./images/Light%20Mode/Ex2.png">
 </picture>
 
 
@@ -79,8 +79,8 @@ CREATE TABLE WorksIn
 ## **Self-Relationship**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex3.png">
-  <img width="100%" src="./images/Light Mode/Ex3.png">
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex3.png">
+  <img width="100%" src="./images/Light%20Mode/Ex3.png">
 </picture>
 
 Di facile intesa, molto straightforward
@@ -110,8 +110,8 @@ CREATE TABLE Reports_To
 ## **Zero or One Constraint**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex4.png">
-  <img width="100%" src="./images/Light Mode/Ex4.png">
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex4.png">
+  <img width="100%" src="./images/Light%20Mode/Ex4.png">
 </picture>
 
 Ora si inizia a piangere, versione 1 è valida ma poco efficiente, ora vediamo perchè
@@ -170,8 +170,8 @@ Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merit
 ## **One or More | Only One**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex5.png">
-  <img width="100%" src="./images/Light Mode/Ex5.png">
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex5.png">
+  <img width="100%" src="./images/Light%20Mode/Ex5.png">
 </picture>
 
 Per questo esempio ci rifacciamo all'esercizio precedente per quanto concerne la relazione Only One tra Employees e Departments:
@@ -218,8 +218,8 @@ Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valor
 ## **Weak Entity Set**
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex6.png">
-  <img width="100%" src="./images/Light Mode/Ex6.png">
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex6.png">
+  <img width="100%" src="./images/Light%20Mode/Ex6.png">
 </picture>
 
 Per un'implementazione di questo tipo non serve altrp che fare riferimento all'impostazione del [Only One](#one-or-more--only-one) visto precedentemente. Infatti, abbiamo già la parte inerente l'associazione di un solo elemento di Dependents ad uno di Employees, ora ci manca fare in modo che ci sia solo una partial key in gioco da parte del **weak entity set** e che il weak entity decada nel caso nel quale Employees debba essere eliminato dal Database:
