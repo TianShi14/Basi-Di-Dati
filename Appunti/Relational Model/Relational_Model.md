@@ -3,12 +3,17 @@
 ## <center> ER to Relational esempi **vitali** </center>
 
 # **INDEX**
-1. [Entity Set](#entity-set)
-2. [Relationship Set](#relationship-set)
-3. [Self-Relationship](#self-relationship)
-4. [Zero or One Constraint](#zero-or-one-constraint)
-5. [One or More | Only One](#one-or-more--only-one)
-6. [Weak Entity Set](#weak-entity-set)
+- [<center> Relation Models compound](#center-relation-models-compound)
+  - [<center> ER to Relational esempi **vitali** </center>](#center-er-to-relational-esempi-vitali-center)
+- [**INDEX**](#index)
+  - [**Entity Set**](#entity-set)
+  - [**Relationship Set**](#relationship-set)
+  - [**Self-Relationship**](#self-relationship)
+  - [**Zero or One Constraint**](#zero-or-one-constraint)
+  - [**One or More | Only One**](#one-or-more--only-one)
+- [<center> DA RIVEDERE](#center-da-rivedere)
+  - [**Weak Entity Set**](#weak-entity-set)
+  - [**Class Hierarchies**](#class-hierarchies)
 
 #
 
@@ -44,7 +49,7 @@ Relazione molti a molti con attributo nel **relationship set**
 CREATE TABLE Employees
 (
     ssn CHAR(11),
-    ename VARCHAR(20),
+    e_name VARCHAR(20),
     lot INTEGER,
     PRIMARY KEY(ssn)
 );
@@ -83,7 +88,7 @@ Di facile intesa, molto straightforward
 CREATE TABLE Employees
 (
     ssn CHAR(11),
-    e_name VARCHAR(20),
+    ename VARCHAR(20),
     lot INTEGER,
     PRIMARY KEY(ssn)
 );
@@ -97,7 +102,7 @@ CREATE TABLE Reports_To
     FOREIGN KEY(subordinate_ssn)
         REFERENCES Employees(ssn),
     FOREIGN KEY(supervisor_ssn)
-        REFERENCES Employees(ssn) -- facile intesa
+        REFERENCES Employees(ssn) -- referenzi due volte con la stessa key lo stesso entity
 );
 ~~~
 
@@ -132,7 +137,7 @@ CREATE TABLE Manages
     ssn CHAR(11),
     did INTEGER,
     since DATE, 
-    PRIMARY KEY (did), -- funziona ma semi illegale e deprecated
+    PRIMARY KEY (did), 
     FOREIGN KEY (ssn) REFERENCES Employees,
     FOREIGN KEY (did) REFERENCES Departments
 );
@@ -147,7 +152,7 @@ CREATE TABLE Employees
     lot INTEGER,
     PRIMARY KEY(ssn)
 );
-CREATE TABLE Dept_Mgr
+CREATE TABLE Dept_Mgr -- una tabella sia Departments che Manager
 (
     did INTEGER,
     dname VARCHAR(20),
@@ -229,9 +234,12 @@ CREATE TABLE Dep_Pol
     dname VARCHAR(20),
     age INTEGER,
     ssn CHAR(11),
-    PRIMARY KEY(dname, ssn),
+    PRIMARY KEY(dname, ssn), -- due partial keys che ne compongono una
     FOREIGN KEY(ssn)
         REFERENCES Employees
-        ON DELETE CASCADE
+        ON DELETE CASCADE -- se Employees scompare, sparisce anche Dep_Pol
 );
 ~~~
+
+## **Class Hierarchies**
+
