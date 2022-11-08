@@ -1,6 +1,6 @@
-# <center> Relation Models compound
+# <p align="center"> Relation Models compound </p>
 
-## <center> ER to Relational esempi **vitali** </center>
+## <p align="center"> ER to Relational esempi **vitali** </p>
 
 # **INDEX**
 
@@ -17,8 +17,8 @@
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="75%" srcset="./images/Dark Mode/Ex1.png">
-  <img width="75%" src="./images/Light Mode/Ex1.png">
+  <source media="(prefers-color-scheme: dark)" width="65%" srcset="./images/Dark Mode/Ex1.png">
+  <img width="65%" src="./images/Light Mode/Ex1.png">
 </picture>
 </p>
 
@@ -221,7 +221,7 @@ CREATE TABLE WorksIn
             .
 ~~~
 Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valore nullo di *did*. Ora rimane da implementare 
-# <center> DA RIVEDERE
+# <p align="center"> DA RIVEDERE </p>
 
 ## **Weak Entity Set**
 
