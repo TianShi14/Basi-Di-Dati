@@ -3,25 +3,24 @@
 ## <center> ER to Relational esempi **vitali** </center>
 
 # **INDEX**
-- [<center> Relation Models compound](#center-relation-models-compound)
-  - [<center> ER to Relational esempi **vitali** </center>](#center-er-to-relational-esempi-vitali-center)
-- [**INDEX**](#index)
+
   - [**Entity Set**](#entity-set)
   - [**Relationship Set**](#relationship-set)
   - [**Self-Relationship**](#self-relationship)
   - [**Zero or One Constraint**](#zero-or-one-constraint)
   - [**One or More | Only One**](#one-or-more--only-one)
-- [<center> DA RIVEDERE](#center-da-rivedere)
-  - [**Weak Entity Set**](#weak-entity-set)
-  - [**Class Hierarchies**](#class-hierarchies)
 
 #
 
 ## **Entity Set**
 
-<p align="center">
-    <img width = "60%" src = "./images/Ex1.png">
-</p>
+
+<center>
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="75%" srcset="./images/Dark Mode/Ex1.png">
+  <img width="75%" src="./images/Light Mode/Ex1.png">
+</picture>
+</center>
 
 Banalmente una struttura standard di un **entity set**, di cui andiamo a definire parametri, chiave primaria e simili
 
@@ -29,7 +28,7 @@ Banalmente una struttura standard di un **entity set**, di cui andiamo a definir
 CREATE TABLE Employees
 (
     ssn CHAR(11),           --crea un campo
-    e_name VARCHAR(20),     
+    ename VARCHAR(20),     
     /*VARCHAR pone un limite massimo al numero di "caratteri", CHAR ne indica il 
     numero preciso*/
     lot INTEGER,
@@ -39,9 +38,12 @@ CREATE TABLE Employees
 
 ## **Relationship Set**
 
-<p align="center">
-    <img src = "./images/Ex2.png">
-</p>
+<center>
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex2.png">
+  <img width="100%" src="./images/Light Mode/Ex2.png">
+</picture>
+</center>
 
 Relazione molti a molti con attributo nel **relationship set**
 
@@ -49,7 +51,7 @@ Relazione molti a molti con attributo nel **relationship set**
 CREATE TABLE Employees
 (
     ssn CHAR(11),
-    e_name VARCHAR(20),
+    ename VARCHAR(20),
     lot INTEGER,
     PRIMARY KEY(ssn)
 );
@@ -78,9 +80,12 @@ CREATE TABLE WorksIn
 
 ## **Self-Relationship**
 
-<p align="center">
-    <img width="60%" src = "./images/Ex3.png">
-</p>
+<center>
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="60%" srcset="./images/Dark Mode/Ex3.png">
+  <img width="60%" src="./images/Light Mode/Ex3.png">
+</picture>
+</center>
 
 Di facile intesa, molto straightforward
 
@@ -108,12 +113,14 @@ CREATE TABLE Reports_To
 
 ## **Zero or One Constraint**
 
-<p align="center">
-    <img src = "./images/Ex4.png">
-</p>
+<center>
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex4.png">
+  <img width="100%" src="./images/Light Mode/Ex4.png">
+</picture>
+</center>
 
 Ora si inizia a piangere, versione 1 è valida ma poco efficiente, ora vediamo perchè
-
 
 ~~~ sql
 CREATE TABLE Employees
@@ -128,7 +135,7 @@ CREATE TABLE Departments
 (
     did INTEGER,
     dname VARCHAR(20),
-    budget INTEGER.
+    budget INTEGER,
     PRIMARY KEY(did)
 );
 
@@ -168,9 +175,12 @@ Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merit
 
 ## **One or More | Only One**
 
-<p align="center">
-    <img src = "./images/Ex5.png">
-</p>
+<center>
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex5.png">
+  <img width="100%" src="./images/Light Mode/Ex5.png">
+</picture>
+</center>
 
 Per questo esempio ci rifacciamo all'esercizio precedente per quanto concerne la relazione Only One tra Employees e Departments:
 
@@ -201,7 +211,7 @@ CREATE TABLE Dept_Mgr
 
 Qui sorge un problema fondamentale dell'SQL e come esso si relaziona con i diagrammi ER, in quanto un **costraint** come quello imposto sulla relazione WorksIn non possiede un effettiva implementazione. 
 
-Analizziamo perchè: supponiamo di voler associare ad ogni valore di Departments **uno o più** valori di Employees. Facendo cross-referencing con ciò che si è visto fin'ora verrebbe, logicamente, nella relazione WorksIn da implementare un qualcosa di simile:
+Analizziamo perchè: supponiamo di voler associare ad ogni valore di Departments **uno o più** valori di Employees. Facendo cross-referencing con ciò che si è visto fin'ora verrebbe, logicamente, nella relazione Works_In da implementare un qualcosa di simile:
 ~~~sql
 CREATE TABLE WorksIn
 (
@@ -215,9 +225,12 @@ Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valor
 
 ## **Weak Entity Set**
 
-<p align="center">
-    <img src = "./images/Ex6.png">
-</p>
+<center>
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark Mode/Ex6.png">
+  <img width="100%" src="./images/Light Mode/Ex6.png">
+</picture>
+</center>
 
 Per un'implementazione di questo tipo non serve altrp che fare riferimento all'impostazione del [Only One](#one-or-more--only-one) visto precedentemente. Infatti, abbiamo già la parte inerente l'associazione di un solo elemento di Dependents ad uno di Employees, ora ci manca fare in modo che ci sia solo una partial key in gioco da parte del **weak entity set** e che il weak entity decada nel caso nel quale Employees debba essere eliminato dal Database:
 ~~~sql
