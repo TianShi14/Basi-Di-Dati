@@ -11,6 +11,9 @@
   - [**One or More | Only One**](#one-or-more--only-one)
   - [**Weak Entity Set**](#weak-entity-set)
   - [**Class Hierarchies**](#class-hierarchies)
+  - [**Aggregation**](#aggregation)
+  - [**Esercizio Aggiuntivo Propedeutico**](#esercizio-aggiuntivo-propedeutico)
+  - [**Note Finali**](#note-finali)
 
 #
 
