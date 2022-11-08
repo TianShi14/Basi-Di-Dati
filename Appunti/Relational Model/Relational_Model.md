@@ -22,6 +22,8 @@
   <img alt="No biggie" width="100%" src="./images/Light%20Mode/Ex1.png">
 </picture>
 
+#
+
 Banalmente una struttura standard di un **entity set**, di cui andiamo a definire parametri, chiave primaria e simili
 
 ~~~ sql
@@ -44,6 +46,7 @@ CREATE TABLE Employees
   <img width="100%" src="./images/Light%20Mode/Ex2.png">
 </picture>
 
+#
 
 Relazione molti a molti con attributo nel **relationship set**
 
@@ -85,6 +88,8 @@ CREATE TABLE WorksIn
   <img width="100%" src="./images/Light%20Mode/Ex3.png">
 </picture>
 
+#
+
 Di facile intesa, molto straightforward
 
 ~~~ sql
@@ -116,6 +121,8 @@ CREATE TABLE Reports_To
   <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex4.png">
   <img width="100%" src="./images/Light%20Mode/Ex4.png">
 </picture>
+
+#
 
 Ora si inizia a piangere, versione 1 è valida ma poco efficiente, ora vediamo perchè
 
@@ -177,6 +184,8 @@ Una breve precisazione, la tabella Dept_Mgr creata cattura informazioni in merit
   <img width="100%" src="./images/Light%20Mode/Ex5.png">
 </picture>
 
+#
+
 Per questo esempio ci rifacciamo all'esercizio precedente per quanto concerne la relazione Only One tra Employees e Departments:
 
 ~~~sql
@@ -225,6 +234,8 @@ Questo di sicuro preverebbe che una qualsiasi tupla di WorksIn possegga un valor
   <img width="100%" src="./images/Light%20Mode/Ex6.png">
 </picture>
 
+#
+
 Per un'implementazione di questo tipo non serve altrp che fare riferimento all'impostazione del [Only One](#one-or-more--only-one) visto precedentemente. Infatti, abbiamo già la parte inerente l'associazione di un solo elemento di Dependents ad uno di Employees, ora ci manca fare in modo che ci sia solo una partial key in gioco da parte del **weak entity set** e che il weak entity decada nel caso nel quale Employees debba essere eliminato dal Database:
 ~~~sql
 CREATE TABLE Employees
@@ -253,6 +264,8 @@ CREATE TABLE Dep_Pol
   <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex7.png">
   <img width="100%" src="./images/Light%20Mode/Ex7.png">
 </picture>
+
+#
 
 Dobbiamo introdurre un nuovo concetto per comprendere con che tipo di implementazione vogliamo sperimentare quando ci ritroviamo un ISA di fronte.  
 Partiamo dal primo esempio che riguarda **l'Overlap** costraint, in cui un Employee può essere sia un Hourly_Emp che un Contract_Emp che nessuna delle due:  
@@ -339,5 +352,14 @@ CREATE TABLE Contract_Emps
     PRIMARY KEY(ssn)
 );
 /* anche sto netodo fa un po' cagare perchè non hai modo di legare i due ssn qualora l'employee
-abbia due lavori ma sticazzi, almeno non hai 300 null*/
+abbia due lavori ma sticazzi, almeno non hai 300 null */
 ~~~
+
+## Aggregation 
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" width="100%" srcset="./images/Dark%20Mode/Ex8.png">
+  <img width="100%" src="./images/Light%20Mode/Ex8.png">
+</picture>
+
+#
