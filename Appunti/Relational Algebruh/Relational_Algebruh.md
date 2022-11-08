@@ -11,7 +11,7 @@
 
 #
 
-## Selection and Projection
+# Selection and Projection
 
 Pochi cazzi, dritti al punto con degli esempi facili facili che si capiscono:
 
@@ -151,3 +151,5 @@ Dà:
 |Carmelo|35|
 
 #### Non dò certezze sul fatto che sia una ricorrenza voluta da PostgreSQL, anche perchè non c'ho troppa sbatta di andare a verificare ciò che sto per dire, però pare che dall'alto verso il basso il risultato della query abbia organizzato i dati che abbiamo "proiettato" dal rating più alto fino al più basso (può essere che lo faccia sempre come no).
+
+</details>
