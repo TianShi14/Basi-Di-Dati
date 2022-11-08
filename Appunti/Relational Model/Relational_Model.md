@@ -1,4 +1,4 @@
-# <p align="center"> Relation Models compound </p>
+# <p align="center"> Relational Models compound </p>
 
 ## <p align="center"> ER to Relational esempi **vitali** </p>
 
@@ -17,7 +17,7 @@
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" width="65%" srcset="./images/Dark Mode/Ex1.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./images/Dark Mode/Ex1.png">
   <img width="65%" src="./images/Light Mode/Ex1.png">
 </picture>
 </p>
