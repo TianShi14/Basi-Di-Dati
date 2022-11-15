@@ -6,8 +6,8 @@
 # INDEX
 
 - [Selection and Projection](#selection-and-projection)
-- [Union, Difference and Intersection](#union-difference-and-intersection)
-- []()
+- [Union, Difference and Intersection](#union-difference-and-intersection-relational-algebra-only)
+- [Cartesian Products and Joins](#cartesian-products-and-joins)
 
 #
 
@@ -157,7 +157,7 @@ Dà:
 
 <details>
 
-<summary><h2> Additional Infos </h2> </summary>
+<summary><h2> Additional Infos (SQL only) </h2> </summary>
 
 Per questi esempi useremo queste tabelle e il [sito](https://www.db-fiddle.com) consigliato:
 
@@ -238,8 +238,12 @@ WHERE pname LIKE 'A_g%'; -- seleziona i nomi che hanno A come iniziale e g come 
 
 #
 
-<!--- 
-# Union, Difference and intersection
+
+# Union, Difference and intersection (Relational Algebra Only)
+
+<details>
+
+<summary><h2> Concepts </h2></summary>
 
 Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
 
@@ -288,7 +292,9 @@ $S - D$
 |:---:|:---:|
 |2|Monica|
 
---->
+</details>
+
+#
 
 # Cartesian Products and Joins
 
@@ -448,3 +454,77 @@ in SQL:
 ~~~
 
 </details>
+
+#
+
+<details>
+
+<summary><h2> Natural Join </h2></summary>
+
+Sebbene non sia usato molto, il **natural join** consente di svolgere un'operazione di equi join vitale. Dati sempre isMother e isFather definiamo una natural join come
+
+$NatJoin = isMother ⋈ isFather$ 
+
+che generalizziamo, dati X e Y rispettivamente la lista degli attributi di isMother e isFather
+
+$$\rho(NatJoin, \pi_{X, Y-X}(\sigma_{isMother.isMother\cap isFather = isFather.isMother\cap isFather}(isMother \times isFather))) $$
+
+o riassumendo
+
+$$\rho(NatJoin, \pi_{X, Y-X}(isMother ⋈_{equi \_ on \_ isMother \cap isFather} isFather)) $$
+
+### NatJoin
+
+|mother|child|father|
+|:---:|:---:|:---:|
+|Anna|Olga|Luigi|
+|Anna|Filippo|Luigi|
+|Maria|Andrea|Franco|
+|Maria|Aldo|Franco|
+
+</details>
+
+#
+
+<details>
+
+<summary><h2> Division </h2></summary>
+
+La divisione non è supportata naturalmente nel linguaggio SQL, eppure dà un risultato parecchio fregno che vediamo ora
+
+Per convenienza ci definiamo due nuove tabelle fresche fresche:
+
+### Students
+
+| name | uni_courses | 
+|:---:|:---:|
+| Paolo | Pisolino Avanzato | 
+| Paolo | Punteggiatura 2 | 
+| Lucario | 4 Stagioni | 
+| Lucario | Pisolino Avanzato | 
+| Minestra | Astrofisica Applicata | 
+| Minestra | Morbin Time | 
+| Minestra | Somma tra Tre Numeri | 
+
+### AdvancedCourses
+
+uni_courses|
+:---:
+Pisolino Avanzato
+4 Stagioni
+
+E definiamo dunque $Div = Students \div AdvancedCourses$
+
+oppure visto come
+
+$$ \rho (Div, \pi_{X - Y}(Students) - \pi_{X-Y}((\pi_{X-Y}(Students) \times AdvancedCourses) - Students)$$
+
+### Div
+
+name|
+:---:
+Lucario
+
+</details>
+
+#
