@@ -6,7 +6,7 @@
 # INDEX
 
 - [Selection and Projection](#selection-and-projection)
-- []()
+- [Union, Difference and Intersection](#union-difference-and-intersection)
 - []()
 
 #
@@ -153,6 +153,10 @@ Dà:
 
 </details>
 
+<details>
+
+<summary><h2> Additional Infos </h2> </summary>
+
 Per questi esempi useremo queste tabelle e il [sito](https://www.db-fiddle.com) consigliato:
 
 ~~~sql
@@ -200,7 +204,7 @@ FROM Person p
 WHERE p.age <35;
 ~~~
 
-Possiamo anche usare delle espressioni nella selezione:
+Possiamo anche usare delle espressioni nella proiezione:
 ~~~ sql
 SELECT income/2 as Salary
 FROM Person
@@ -216,7 +220,186 @@ WHERE income > 20 AND income <40;
 
 -- o anche 
 
-SELECT pid, pname + ' Palla Destra'
+SELECT pid, pname, age + 420
 FROM Person
-WHERE 
+WHERE income > 20 AND (age < 40 OR age > 3);
 ~~~
+
+Generalizzare la soluzione di una selezione
+~~~ sql
+SELECT *
+FROM Person
+WHERE pname LIKE 'A_g%'; -- seleziona i nomi che hanno A come iniziale e g come terza lettera
+~~~
+
+</details>
+
+<!--- 
+# Union, Difference and intersection
+
+Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
+
+Prenderemo in esempio due tabelle propedeutiche per comprendere i tre concetti: 
+
+### S
+|sid|sname|
+|:---:|:---:|
+|1|Arianna|
+|2|Monica|
+|3|Mariangelo|
+
+### D
+|did|dname|
+|:---:|:---:|
+|1|Arianna|
+|4|Samaritano|
+|3|Mariangelo|
+
+### Unione 
+
+$S \cup D$
+
+
+|sid|sname|
+|:---:|:---:|
+|1|Arianna|
+|2|Monica|
+|3|Mariangelo|
+|4|Samaritano|
+
+### Intersezione
+
+$S \cap D$
+
+|sid|sname|
+|:---:|:---:|
+|1|Arianna|
+|3|Mariangelo|
+
+### DIfferenza 
+
+$S - D$
+
+|sid|sname|
+|:---:|:---:|
+|2|Monica|
+
+--->
+
+# Cartesian Products and Joins
+
+Prendiamo in esempio tre tabelle per meglio comprendere di che cazzo si parla!
+
+### isMother
+
+|mother|child|
+|:---:|:---:|
+Luisa|Maria
+Luisa|Luigi
+Anna|Olga
+Anna|Filippo
+Maria|Andrea
+Maria|Aldo
+
+### isFather
+
+|father|child|
+|:---:|:---:|
+Sergio|Franco
+Luigi|Olga
+Luigi|Filippo
+Franco|Andrea
+Franco|Aldo
+
+### Persona
+
+|name|age|income|
+|:---:|:---:|:---:|
+Andrea|27|21
+Aldo|25|15
+Maria|55|42
+Anna|50|35
+Filippo|26|30
+Luigi|50|40
+Franco|60|20
+Olga|30|41
+Sergio|85|35
+Luisa|75|87
+
+<details>
+
+<summary><h2> Cartesian Product and Renaming Operator </h2> </summary> 
+
+Per facilità in questo esempio riduciamo a due tuple ciascuna le tabelle isMother e isFather dunque:
+
+### isMother
+
+|mother|child|
+|:---:|:---:|
+Luisa|Maria
+Luisa|Luigi
+
+### isFather
+
+|father|child|
+|:---:|:---:|
+Sergio|Franco
+Luigi|Olga
+
+Banalmente, date le due tabelle, il **prodotto cartesiano** associa alle ad ogni riga della prima tabella, tutte le righe della seconda, e dunque uscirà che dato $ProdCart = isMother \times isFather$
+
+### ProdCart
+
+|mother|(child)|father|(child)|
+|:---:|:---:|:---:|:---:|
+|Luisa|Maria|Sergio|Franco
+|Luisa|Maria|Luigi|Olga
+|Luisa|Luigi|Sergio|Franco
+|Luisa|Luigi|Luigi|Olga
+
+In SQL:
+~~~ sql
+
+~~~
+
+Per risolvere ambiguità come quella causata dalla doppia presenza di "child" usiamo il renaming operator. Dato $\rho( R (2 \rArr m\_ child, 4 \rArr f\_ child), isMother \times isFather)$ avremo:
+
+### R
+
+|mother|m_child|father|f_child|
+|:---:|:---:|:---:|:---:|
+|Luisa|Maria|Sergio|Franco
+|Luisa|Maria|Luigi|Olga
+|Luisa|Luigi|Sergio|Franco
+|Luisa|Luigi|Luigi|Olga
+
+In SQL:
+
+~~~ sql
+
+~~~
+
+</details>
+
+## Condition Join
+
+La **condition join** è simile al prodotto cartesiano, ma banalmente aggiunge un criterio per il quale ad una tupla ne debba essere collegata un'altra. Ad esempio, proviamo a fare 
+
+$CondJoin = Persona ⋈_{p1.age < p2.age} Persona$
+
+riscrivibile anche come 
+
+$$\rho(CondJoin(2 \rArr p1.age, 2 \rArr p1.age, 2 \rArr p1.age, 2 \rArr p1.age, 2 \rArr p1.age, 4 \rArr p2.age), \sigma_{p1.age < p2.age}(\rho(p1, Persona) \times \rho(p2, Persona)))$$
+
+nel caso in cui Persona sia composto solo dalle prime 4 tuple
+
+### CondJoin
+
+|name|p1.age|income|name|p2.age|income|
+|:---:|:---:|:---:|:---:|:---:|:---:
+Andrea|27|21
+Aldo|25|15
+Maria|55|42
+Anna|50|35
+
+</details>
