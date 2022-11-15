@@ -362,7 +362,7 @@ In SQL:
 
 ~~~
 
-Per risolvere ambiguità come quella causata dalla doppia presenza di "child" usiamo il renaming operator. Dato $\rho( R (2 \rArr m\_ child, 4 \rArr f\_ child), isMother \times isFather)$ avremo:
+Per risolvere ambiguità come quella causata dalla doppia presenza di "child" usiamo il renaming operator. Dato $\rho( R (2 \to m\_ child, 4 \to f\_ child), isMother \times isFather)$ avremo:
 
 ### R
 
@@ -389,7 +389,7 @@ $CondJoin = Persona ⋈_{p1.age < p2.age} Persona$
 
 riscrivibile anche come 
 
-$$\rho(CondJoin(2 \rArr p1.age, 2 \rArr p1.age, 2 \rArr p1.age, 2 \rArr p1.age, 2 \rArr p1.age, 4 \rArr p2.age), \sigma_{p1.age < p2.age}(\rho(p1, Persona) \times \rho(p2, Persona)))$$
+$$\rho(CondJoin(2 \to p1.age, 2 \to p1.age, 2 \to p1.age, 2 \to p1.age, 2 \to p1.age, 4 \to p2.age), \sigma_{p1.age < p2.age}(\rho(p1, Persona) \times \rho(p2, Persona)))$$
 
 nel caso in cui Persona sia composto solo dalle prime 4 tuple
 
