@@ -153,6 +153,8 @@ Dà:
 
 </details>
 
+#
+
 <details>
 
 <summary><h2> Additional Infos </h2> </summary>
@@ -233,6 +235,8 @@ WHERE pname LIKE 'A_g%'; -- seleziona i nomi che hanno A come iniziale e g come 
 ~~~
 
 </details>
+
+#
 
 <!--- 
 # Union, Difference and intersection
@@ -381,25 +385,66 @@ In SQL:
 
 </details>
 
-## Condition Join
+#
 
-La **condition join** è simile al prodotto cartesiano, ma banalmente aggiunge un criterio per il quale ad una tupla ne debba essere collegata un'altra. Ad esempio, proviamo a fare 
+<details>
+
+<summary><h2> Conditioned Join </h2> </summary> 
+
+La **conditioned join** è simile al prodotto cartesiano, ma banalmente aggiunge un criterio per il quale ad una tupla ne debba essere collegata un'altra. Ad esempio, proviamo a fare 
 
 $CondJoin = Persona ⋈_{p1.age < p2.age} Persona$
 
 riscrivibile anche come 
 
-$$\rho(CondJoin(2 \to p1.age, 2 \to p1.age, 2 \to p1.age, 2 \to p1.age, 2 \to p1.age, 4 \to p2.age), \sigma_{p1.age < p2.age}(\rho(p1, Persona) \times \rho(p2, Persona)))$$
+$$\rho(CondJoin(1 \to p1.name, 2 \to p1.age, 3 \to p1.income, 4 \to p2.name, 5 \to p2.age, 6 \to p2.income), \sigma_{p1.age < p2.age}(\rho(p1, Persona) \times \rho(p2, Persona)))$$
 
 nel caso in cui Persona sia composto solo dalle prime 4 tuple
 
 ### CondJoin
 
-|name|p1.age|income|name|p2.age|income|
+|p1.name|p1.age|p1.income|p2.name|p2.age|p2.income|
 |:---:|:---:|:---:|:---:|:---:|:---:
-Andrea|27|21
-Aldo|25|15
-Maria|55|42
-Anna|50|35
+Andrea|27|21|Anna|50|35
+Andrea|27|21|Maria|55|42
+Aldo|25|15|Andrea|27|21
+Aldo|25|15|Anna|50|35
+Aldo|25|15|Maria|55|42
+Anna|50|35|Maria|55|42
+
+In SQL:
+~~~ sql
+
+~~~
+
+</details>
+
+#
+
+<details>
+
+<summary><h2> Equi Join </h2> </summary> 
+
+**L'equi join**, è null'altro se non una banale conditioned join in cui l'operatore di confronto controlla che i valori di un attributo di una tabella siano uguali ai valori di altri attributi di un'altra tabella.
+
+Tornando a isFather e isMother come esempi, cerchiamo di definire un equi join definita come  
+
+$EquiJoin = isMother ⋈_{isMother.child = isFather.father} isFather$  
+
+oppure anche   
+$$\rho(EquiJoin(2 \to m \_child, 4 \to f \_ child), \sigma_{isMother.child = isFather.father}(isMother \times isFather))$$
+
+### EquiJoin
+
+|mother|m_child|father|f_child|
+|:---:|:---:|:---:|:---:|
+|Luisa|Luigi|Luigi|Olga
+|Luisa|Luigi|Luigi|Filippo
+
+in SQL:
+
+~~~ sql
+
+~~~
 
 </details>
