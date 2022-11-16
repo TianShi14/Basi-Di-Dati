@@ -425,6 +425,12 @@ In SQL:
 SELECT *
 FROM Persona p1, Persona p2
 WHERE p1.age < p2.age;
+
+-- oppure, con la notazione che si userà da ora in avanti
+
+SELECT *
+FROM Persona p1 join Persona p2
+ON p1.age < p2.age;
 ~~~
 
 </details>
@@ -454,7 +460,8 @@ $$\rho(EquiJoin(2 \to m \_child, 4 \to f \_ child), \sigma_{isMother.child = isF
 in SQL:
 
 ~~~ sql
-
+SELECT mother, isMother.child as m_child, father, isFather.child as f_child
+FROM isMother join isFather ON isMother.child = isFather.father; 
 ~~~
 
 </details>
@@ -486,6 +493,20 @@ $$\rho(NatJoin, \pi_{X, Y-X}(isMother ⋈_{equi \_ on \_ isMother \cap isFather}
 |Maria|Andrea|Franco|
 |Maria|Aldo|Franco|
 
+in SQL:
+
+~~~ sql
+-- visto che non c'è modo per fare l'intersezione e la differenza in SQL, faremo uso del sapere quale sia l'intersezione e la differenza tra le due tabelle
+
+SELECT mother, isMother.child /*o isFather.child, lasciare solo child causa ambiguità*/, father
+FROM isMother join isFather 
+ON isMother.child = isFather.child;
+
+-- o ancor meglio
+
+SELECT *
+FROM isMother natural join isFather;
+~~~
 </details>
 
 #
@@ -529,6 +550,61 @@ name|
 :---:
 Lucario
 
+Non mi va di fare l'SQL ci penso n'altra volta amo
 </details>
 
 #
+
+## Outher (other / outer eheheh) Joins in SQL
+
+La **left outer join** dell'esempio ci dà ogni coppia padre / figlio disponibile e solo se esiste ci dà la madre
+
+in SQL:
+~~~ sql
+SELECT *
+FROM isFather left outer join isMother
+ON isFather.child = isMother.child;
+~~~
+
+sputa fuori:
+
+
+| father | child   | mother | child   |
+| :----: | :-----: | :----: | :-----: |
+| Franco | Aldo    | Maria  | Aldo    |
+| Franco | Andrea  | Maria  | Andrea  |
+| Luigi  | Filippo | Anna   | Filippo |
+| Sergio | Franco  |        |         |
+| Luigi  | Olga    | Anna   | Olga    |
+
+La **right outer join** invece restituisce ogni madre conosciuta anche senza conoscere il padre
+
+in SQL:
+~~~ sql
+SELECT *
+FROM isFather right outer join isMother
+ON isFather.child = isMother.child;
+~~~
+
+sputa fuori:
+
+| father | child   | mother | child   |
+| :----: | :-----: | :----: | :-----: |
+| Franco | Aldo    | Maria  | Aldo    |
+| Franco | Andrea  | Maria  | Andrea  |
+| Luigi  | Filippo | Anna   | Filippo |
+|        |         | Luisa  | Luigi   |
+|        |         | Luisa  | Maria   |
+| Luigi  | Olga    | Anna   | Olga    |
+
+Le **full outer join** invece restituiscono sia ogni padre che ogni madre conosciuti indipendenetemente dalla conoscenza del padre o della madre
+
+| father | child   | mother | child   |
+| ------ | ------- | ------ | ------- |
+| Franco | Aldo    | Maria  | Aldo    |
+| Franco | Andrea  | Maria  | Andrea  |
+| Luigi  | Filippo | Anna   | Filippo |
+| Sergio | Franco  |        |         |
+|        |         | Luisa  | Luigi   |
+|        |         | Luisa  | Maria   |
+| Luigi  | Olga    | Anna   | Olga    |
