@@ -241,12 +241,6 @@ WHERE pname LIKE 'A_g%'; -- seleziona i nomi che hanno A come iniziale e g come 
 
 # Union, Difference and intersection (Relational Algebra Only)
 
-<details>
-
-<summary><h2> Concepts </h2></summary>
-
-Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
-
 Prenderemo in esempio due tabelle propedeutiche per comprendere i tre concetti: 
 
 ### S
@@ -262,6 +256,12 @@ Prenderemo in esempio due tabelle propedeutiche per comprendere i tre concetti:
 |1|Arianna|
 |4|Samaritano|
 |3|Mariangelo|
+
+<details>
+
+<summary><h2> Union, Difference and Intersection </h2></summary>
+
+Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
 
 ### Unione 
 
@@ -369,7 +369,8 @@ Banalmente, date le due tabelle, il **prodotto cartesiano** associa alle ad ogni
 
 In SQL:
 ~~~ sql
-
+SELECT *
+FROM isMother, isFather;
 ~~~
 
 Per risolvere ambiguità come quella causata dalla doppia presenza di "child" usiamo il renaming operator. Dato $\rho( R (2 \to m\_ child, 4 \to f\_ child), isMother \times isFather)$ avremo:
@@ -386,7 +387,8 @@ Per risolvere ambiguità come quella causata dalla doppia presenza di "child" us
 In SQL:
 
 ~~~ sql
-
+SELECT mother, isMother.child as m_child, father, isFather.child as f_child
+FROM isMother, isFather;
 ~~~
 
 </details>
@@ -420,7 +422,9 @@ Anna|50|35|Maria|55|42
 
 In SQL:
 ~~~ sql
-
+SELECT *
+FROM Persona p1, Persona p2
+WHERE p1.age < p2.age;
 ~~~
 
 </details>
