@@ -600,21 +600,18 @@ Olga|30|41
 Sergio|85|35
 Luisa|75|87
 
-<!--<details>
-
-<summary><h2> Union, Difference and Intersection </h2></summary> -->
-
-
 Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
 
-## Unione 
+<details>
+
+<summary><h2> Unione </h2></summary>  
 
 $S \cup D$
 
 Come notiamo, inoltre, gli attributi prendono il nome della prima SELECT
 
 | father | child   |
-| ------ | ------- |
+| :----: | :-----: |
 | Luigi  | Filippo |
 | Sergio | Franco  |
 | Anna   | Olga    |
@@ -644,16 +641,68 @@ union
 SELECT *
 FROM isMother;
 ~~~
+E' **IMPORTANTE** la posizione degli attributi nella SELECT, sennò l'ordine delle tuple è f o t t u t o
 
-## Intersezione
+</details>
+
+#
+
+<details>
+
+<summary><h2> Intersezione </h2></summary>
 
 $S \cap D$
 
+| child   |
+| :-----: |
+| Olga    |
+| Filippo |
+| Andrea  |
+| Aldo    |
 
+in SQL:
+~~~ sql
+SELECT distinct mo.child
+FROM isMother mo join isFather fa 
+ON mo.child = fa.child;
 
-## DIfferenza 
+-- o anche
+
+SELECT distinct mo.child
+FROM isMother mo, isFather fa 
+WHERE mo.child = fa.child;
+~~~
+
+Oppure col termine specifico presente nativamente in SQL:
+~~~ sql
+SELECT child
+FROM isFather
+intersect --all, con all le tuple duplicate vengono tenute, corrisponde con l'eliminazione del distinct dell'esempio precedente
+SELECT child
+FROM isMother;
+~~~
+</details>
+
+#
+
+<details>
+
+<summary><h2> Differenza </h2></summary> 
 
 $S - D$
+| child  |
+| :----: |
+| Franco |
 
+in SQL:
+~~~ sql
+SELECT child
+FROM isFather
+except --all, con all tutte le tuple duplicate vengono tenute
+SELECT child
+FROM isMother;
+~~~
 
 </details> 
+
+#
