@@ -6,8 +6,8 @@
 # INDEX
 
 - [Selection and Projection](#selection-and-projection)
-- [Union, Difference and Intersection](#union-difference-and-intersection-relational-algebra-only)
 - [Cartesian Products and Joins](#cartesian-products-and-joins)
+- [Union, Difference and Intersection](#union-difference-and-intersection)
 
 #
 
@@ -233,64 +233,6 @@ SELECT *
 FROM Person
 WHERE pname LIKE 'A_g%'; -- seleziona i nomi che hanno A come iniziale e g come terza lettera
 ~~~
-
-</details>
-
-#
-
-
-# Union, Difference and intersection (Relational Algebra Only)
-
-Prenderemo in esempio due tabelle propedeutiche per comprendere i tre concetti: 
-
-### S
-|sid|sname|
-|:---:|:---:|
-|1|Arianna|
-|2|Monica|
-|3|Mariangelo|
-
-### D
-|did|dname|
-|:---:|:---:|
-|1|Arianna|
-|4|Samaritano|
-|3|Mariangelo|
-
-<details>
-
-<summary><h2> Union, Difference and Intersection </h2></summary>
-
-Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
-
-### Unione 
-
-$S \cup D$
-
-
-|sid|sname|
-|:---:|:---:|
-|1|Arianna|
-|2|Monica|
-|3|Mariangelo|
-|4|Samaritano|
-
-### Intersezione
-
-$S \cap D$
-
-|sid|sname|
-|:---:|:---:|
-|1|Arianna|
-|3|Mariangelo|
-
-### DIfferenza 
-
-$S - D$
-
-|sid|sname|
-|:---:|:---:|
-|2|Monica|
 
 </details>
 
@@ -555,7 +497,9 @@ Non mi va di fare l'SQL ci penso n'altra volta amo
 
 #
 
-## Outher (other / outer eheheh) Joins in SQL
+<details>
+
+<summary><h2> Outher (other / outer eheheh) Joins in SQL </h2> </summary>
 
 La **left outer join** dell'esempio ci dà ogni coppia padre / figlio disponibile e solo se esiste ci dà la madre
 
@@ -608,3 +552,108 @@ Le **full outer join** invece restituiscono sia ogni padre che ogni madre conosc
 |        |         | Luisa  | Luigi   |
 |        |         | Luisa  | Maria   |
 | Luigi  | Olga    | Anna   | Olga    |
+
+</details>
+
+#
+
+## Roba aggiuntiva
+
+#
+
+# Union, Difference and intersection
+
+Prenderemo in esempio le tabelle precedenti ovvero:
+### isMother
+
+|mother|child|
+|:---:|:---:|
+Luisa|Maria
+Luisa|Luigi
+Anna|Olga
+Anna|Filippo
+Maria|Andrea
+Maria|Aldo
+
+### isFather
+
+|father|child|
+|:---:|:---:|
+Sergio|Franco
+Luigi|Olga
+Luigi|Filippo
+Franco|Andrea
+Franco|Aldo
+
+### Persona
+
+|name|age|income|
+|:---:|:---:|:---:|
+Andrea|27|21
+Aldo|25|15
+Maria|55|42
+Anna|50|35
+Filippo|26|30
+Luigi|50|40
+Franco|60|20
+Olga|30|41
+Sergio|85|35
+Luisa|75|87
+
+<!--<details>
+
+<summary><h2> Union, Difference and Intersection </h2></summary> -->
+
+
+Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
+
+## Unione 
+
+$S \cup D$
+
+Come notiamo, inoltre, gli attributi prendono il nome della prima SELECT
+
+| father | child   |
+| ------ | ------- |
+| Luigi  | Filippo |
+| Sergio | Franco  |
+| Anna   | Olga    |
+| Franco | Aldo    |
+| Franco | Andrea  |
+| Anna   | Filippo |
+| Luigi  | Olga    |
+| Luisa  | Maria   |
+| Luisa  | Luigi   |
+| Maria  | Andrea  |
+| Maria  | Aldo    |
+
+in SQL:
+~~~sql
+SELECT *
+FROM isFather
+union -- all, con all le tuple duplicate vengono tenute
+SELECT *
+FROM isMother;
+~~~
+
+Oppure per togliere ambiguità possiamo fare:
+~~~sql
+SELECT father as parent, child
+FROM isFather
+union
+SELECT *
+FROM isMother;
+~~~
+
+## Intersezione
+
+$S \cap D$
+
+
+
+## DIfferenza 
+
+$S - D$
+
+
+</details> 
