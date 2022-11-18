@@ -8,6 +8,7 @@
 - [Selection and Projection](#selection-and-projection)
 - [Cartesian Products and Joins](#cartesian-products-and-joins)
 - [Union, Difference and Intersection](#union-difference-and-intersection)
+- [Grouping and Aggregate Operators](#grouping-and-aggregate-operators)
 
 #
 
@@ -26,7 +27,7 @@ Dato T1:
 |1453|Beppe Fenoglio|63|7.2|
 |3453|Carmelo|35|10.7|
 
-Ovvero in SQL
+Con schema SQL
 
 ~~~sql
 -- notazione per creare la tabella
@@ -278,6 +279,49 @@ Olga|30|41
 Sergio|85|35
 Luisa|75|87
 
+Con schema SQL:
+~~~sql
+CREATE TABLE isMother(
+  mother VARCHAR(20),
+  child VARCHAR(20)
+);
+
+CREATE TABLE isFather(
+  father VARCHAR(20),
+  child VARCHAR(20)
+);
+
+CREATE TABLE Persona(
+  name VARCHAR(20),
+  age INTEGER, 
+  income INTEGER,
+  PRIMARY KEY(name)
+);
+
+INSERT INTO isMother VALUES ('Luisa', 'Maria');
+INSERT INTO isMother VALUES ('Luisa', 'Luigi');
+INSERT INTO isMother VALUES ('Anna', 'Olga');
+INSERT INTO isMother VALUES ('Anna', 'Filippo');
+INSERT INTO isMother VALUES ('Maria', 'Andrea');
+INSERT INTO isMother VALUES ('Maria', 'Aldo');
+
+INSERT INTO isFather VALUES ('Sergio', 'Franco');
+INSERT INTO isFather VALUES ('Luigi', 'Olga');
+INSERT INTO isFather VALUES ('Luigi', 'Filippo');
+INSERT INTO isFather VALUES ('Franco', 'Andrea');
+INSERT INTO isFather VALUES ('Franco', 'Aldo');
+
+INSERT INTO Persona VALUES ('Andrea', 27, 21);
+INSERT INTO Persona VALUES ('Aldo', 25, 15);
+INSERT INTO Persona VALUES ('Maria', 55, 42);
+INSERT INTO Persona VALUES ('Anna', 50, 35);
+INSERT INTO Persona VALUES ('Filippo', 26, 30);
+INSERT INTO Persona VALUES ('Luigi', 50, 40);
+INSERT INTO Persona VALUES ('Franco', 60, 20);
+INSERT INTO Persona VALUES ('Olga', 30, 41);
+INSERT INTO Persona VALUES ('Sergio', 85, 35);
+INSERT INTO Persona VALUES ('Luisa', 75, 87);
+~~~
 <details>
 
 <summary><h2> Cartesian Product and Renaming Operator </h2> </summary> 
@@ -557,10 +601,6 @@ Le **full outer join** invece restituiscono sia ogni padre che ogni madre conosc
 
 #
 
-## Roba aggiuntiva
-
-#
-
 # Union, Difference and intersection
 
 Prenderemo in esempio le tabelle precedenti ovvero:
@@ -600,11 +640,55 @@ Olga|30|41
 Sergio|85|35
 Luisa|75|87
 
+Con schema SQL:
+~~~sql
+CREATE TABLE isMother(
+  mother VARCHAR(20),
+  child VARCHAR(20)
+);
+
+CREATE TABLE isFather(
+  father VARCHAR(20),
+  child VARCHAR(20)
+);
+
+CREATE TABLE Persona(
+  name VARCHAR(20),
+  age INTEGER, 
+  income INTEGER,
+  PRIMARY KEY(name)
+);
+
+INSERT INTO isMother VALUES ('Luisa', 'Maria');
+INSERT INTO isMother VALUES ('Luisa', 'Luigi');
+INSERT INTO isMother VALUES ('Anna', 'Olga');
+INSERT INTO isMother VALUES ('Anna', 'Filippo');
+INSERT INTO isMother VALUES ('Maria', 'Andrea');
+INSERT INTO isMother VALUES ('Maria', 'Aldo');
+
+INSERT INTO isFather VALUES ('Sergio', 'Franco');
+INSERT INTO isFather VALUES ('Luigi', 'Olga');
+INSERT INTO isFather VALUES ('Luigi', 'Filippo');
+INSERT INTO isFather VALUES ('Franco', 'Andrea');
+INSERT INTO isFather VALUES ('Franco', 'Aldo');
+
+INSERT INTO Persona VALUES ('Andrea', 27, 21);
+INSERT INTO Persona VALUES ('Aldo', 25, 15);
+INSERT INTO Persona VALUES ('Maria', 55, 42);
+INSERT INTO Persona VALUES ('Anna', 50, 35);
+INSERT INTO Persona VALUES ('Filippo', 26, 30);
+INSERT INTO Persona VALUES ('Luigi', 50, 40);
+INSERT INTO Persona VALUES ('Franco', 60, 20);
+INSERT INTO Persona VALUES ('Olga', 30, 41);
+INSERT INTO Persona VALUES ('Sergio', 85, 35);
+INSERT INTO Persona VALUES ('Luisa', 75, 87);
+~~~
+
 Tutti e tre devono essere **union-compatible**, ovvero devono possedere lo stesso numero di colonne, e tutte le coppie di colonne "allineate" devono essere dello stesso tipo
 
 <details>
 
-<summary><h2> Unione </h2></summary>  
+<summary><h2> Union </h2></summary>  
 
 $S \cup D$
 
@@ -649,7 +733,7 @@ E' **IMPORTANTE** la posizione degli attributi nella SELECT, sennò l'ordine del
 
 <details>
 
-<summary><h2> Intersezione </h2></summary>
+<summary><h2> Intersection </h2></summary>
 
 $S \cap D$
 
@@ -687,7 +771,7 @@ FROM isMother;
 
 <details>
 
-<summary><h2> Differenza </h2></summary> 
+<summary><h2> Difference </h2></summary> 
 
 $S - D$
 | child  |
@@ -706,3 +790,265 @@ FROM isMother;
 </details> 
 
 #
+
+# Grouping and Aggregate Operators
+
+Riprendiamo in esempio le tabelle:
+
+### isMother
+
+|mother|child|
+|:---:|:---:|
+Luisa|Maria
+Luisa|Luigi
+Anna|Olga
+Anna|Filippo
+Maria|Andrea
+Maria|Aldo
+
+### isFather
+
+|father|child|
+|:---:|:---:|
+Sergio|Franco
+Luigi|Olga
+Luigi|Filippo
+Franco|Andrea
+Franco|Aldo
+
+### Persona
+
+|name|age|income|
+|:---:|:---:|:---:|
+Andrea|27|21
+Aldo|25|15
+Maria|55|42
+Anna|50|35
+Filippo|26|30
+Luigi|50|40
+Franco|60|20
+Olga|30|41
+Sergio|85|35
+Luisa|75|87
+
+Con schema SQL:
+~~~sql
+CREATE TABLE isMother(
+  mother VARCHAR(20),
+  child VARCHAR(20)
+);
+
+CREATE TABLE isFather(
+  father VARCHAR(20),
+  child VARCHAR(20)
+);
+
+CREATE TABLE Persona(
+  name VARCHAR(20),
+  age INTEGER, 
+  income INTEGER,
+  PRIMARY KEY(name)
+);
+
+INSERT INTO isMother VALUES ('Luisa', 'Maria');
+INSERT INTO isMother VALUES ('Luisa', 'Luigi');
+INSERT INTO isMother VALUES ('Anna', 'Olga');
+INSERT INTO isMother VALUES ('Anna', 'Filippo');
+INSERT INTO isMother VALUES ('Maria', 'Andrea');
+INSERT INTO isMother VALUES ('Maria', 'Aldo');
+
+INSERT INTO isFather VALUES ('Sergio', 'Franco');
+INSERT INTO isFather VALUES ('Luigi', 'Olga');
+INSERT INTO isFather VALUES ('Luigi', 'Filippo');
+INSERT INTO isFather VALUES ('Franco', 'Andrea');
+INSERT INTO isFather VALUES ('Franco', 'Aldo');
+
+INSERT INTO Persona VALUES ('Andrea', 27, 21);
+INSERT INTO Persona VALUES ('Aldo', 25, 15);
+INSERT INTO Persona VALUES ('Maria', 55, 42);
+INSERT INTO Persona VALUES ('Anna', 50, 35);
+INSERT INTO Persona VALUES ('Filippo', 26, 30);
+INSERT INTO Persona VALUES ('Luigi', 50, 40);
+INSERT INTO Persona VALUES ('Franco', 60, 20);
+INSERT INTO Persona VALUES ('Olga', 30, 41);
+INSERT INTO Persona VALUES ('Sergio', 85, 35);
+INSERT INTO Persona VALUES ('Luisa', 75, 87);
+~~~
+
+<details>
+<summary><h2> Ordering and Limits </h2></summary>
+
+Il primo operatore è quello di "**order by**", il quale ordina il nostro risultato sulla base di un attributo scelto ( se CHAR in ordine alfabetico se numerico in ordine numerico ), e ha sia una proprietà ascendente (default) e una discendente (**order by "attributo" desc**). Prendendo la tabella Persona:
+~~~sql
+SELECT *
+FROM Persona
+WHERE age > 45
+order by income;
+~~~
+Darà in output:
+
+| name   | age | income |
+| :----: | :-: | :----: |
+| Franco | 60  | 20     |
+| Anna   | 50  | 35     |
+| Sergio | 85  | 35     |
+| Luigi  | 50  | 40     |
+| Maria  | 55  | 42     |
+| Luisa  | 75  | 87     |
+
+Si può notare come le tuple siano ordinate in ordine ascendente numerico sulla base della retribuzione (**income**).
+
+Immaginiamo di voler visualizzare, similmente all'esempio precedente, le persone sopra ai 45 anni con l'income più alto, ma in questo caso volessimo limitarci a vedere la top 3 dei capitalisti merdosi, allora faremmo:
+~~~sql
+SELECT *
+FROM Persona
+WHERE age > 45
+order by income desc
+limit 3;
+~~~
+
+| name  | age | income |
+| :---: | :-: | :----: |
+| Luisa | 75  | 87     |
+| Maria | 55  | 42     |
+| Luigi | 50  | 40     |
+
+</details>
+
+#
+
+<details>
+
+<summary> <h2> Aggregate Operators </h2> </summary>
+
+Count: 
+- count (*) -> conta il numero di tuple 
+  
+  Prendiamo com eesempio isMother e cerchiamo quanti figli ha Anna:
+  ~~~ sql
+  SELECT * 
+  FROM isMother
+  WHERE mother = 'Anna';
+  ~~~
+  Con questa notazione vediamo tutte le tuple in cui appare Anna, tuple che possiamo contare manualmente per sapere in quante istanze Anna appare:
+  
+  | mother | child   |
+  | :----: | :-----: |
+  | Anna   | Olga    |
+  | Anna   | Filippo |
+
+  Però, in grandi database che non restituiscono tuple così ristrette, qualora ci interessi effettivamente solo il numero di istanze presenti senza sapere a che valori Anna è associata ci basta fare:
+  ~~~sql
+  SELECT count (*) as numberOf_annaChildren
+  FROM isMother
+  WHERE mother = 'Anna';
+  ~~~
+  che dà invece:
+
+  |numberOf_annaChildren|
+  | :---: |
+  | 2 |
+- count (attributo) o count (*distinct* attributo)
+  ipotizziamo di aggiungere una tupla in Persona:
+  ~~~sql
+  INSERT INTO Persona VALUES ('Il Gabibbo');
+  ~~~
+  creando dunque la tupla:
+ 
+  | name       | age | income |
+  | :--------: | :-: | :----: |
+  | Il Gabibbo |   null  |    mull    |
+  
+  Qualora decidessimo di usare "count(*)" per contare il numero di tuple, quest'ultima verrebbe contata come una tupla normalissima (anche se tutti e tre i valori fossero 'null', non possibile nell'esempio perchè abbiamo il NOT NULL constraint ma si capisce dai che cazzo).
+  
+  Invece, decidessimo di usare "count(income)" ad esempio, riceveremmo un risultato diverso:
+  ~~~sql
+  SELECT count(income) as numberOf_stipendi
+  FROM Persona
+  ~~~
+  che da:
+  | numberof_stipendi |
+  | :---------------: |
+  | 10                |
+  
+  Mentre una notazione come:
+  ~~~sql
+  SELECT count(distinct income) as numberOf_stipendi_diversi
+  FROM Persona
+  ~~~
+  darebbe in output:
+  
+  | numberof_stipendi_diversi |
+  | :---------------: |
+  | 9                 |
+  
+  Poichè Anna e Sergio hanno lo stesso income di 35, e vengono contati solo una volta.
+
+#
+
+Altri operatori:
+- **avg, sum, min, max** -> tutti consentono solo di inserire come parametro un attributo specifico:
+  - **avg, sum** funzionano con qualsiasi valore numerico, che sia anche una data (DATE) o un orario (TIME)
+  - **min, max** funzionano con qualsiasi valore ordinabile (che funziona con l'order by)
+
+  Tutti questi operatori ignorano i valori null e vanno usati nella SELECT.
+
+#
+
+Una cosa alla quale si deve fare particolare attenzione è che abbiano senso i valori che si decide di selezionare / proiettare (SELECT). In linea generale possiamo affermare che nella SELECT non vadano mai associati un attributo e un operatore di aggregazione:
+
+~~~sql
+SELECT name, max(age)
+FROM Persona; 
+~~~ 
+In questo esempio, si sta cercando di mostrare una tabella in cui vengono mostrati i nomi di tutte le persone, associate ad una tabella in cui esiste solo un valore che coincide all'età massima presente in Persona, per questo esce errore.
+
+Volessimo invece trovare il nome e l'età della persona più vecchia dovremmo fare un'implementazione simile (questa l'ho fatta io da solo a mano, sono un Dio):
+~~~ sql
+SELECT name, age
+FROM Persona
+WHERE age = (
+  SELECT max(age)
+  FROM Persona
+)
+~~~
+Il che restituirebbe:
+| name   | age |
+| :----: | :-: |
+| Sergio | 85  |
+
+In alcuni casi noi vogliamo che, invece di applicare la query all'intera tabella, essa venga applicata in partizioni di tali. Ad esempio, se a differenza degli esempi precedenti noi non desiderassimo contare il numero di figli presenti in isMother, o il numero di figli di una sola madre, ma invece volessimo trovare il numero di figli per ogni madre presente nella relazione, dovremmo usare la clausola "**group by**":
+
+~~~ sql
+SELECT mother, count(child) as numberOf_hellsentCreatures
+FROM isMother
+GROUP BY mother;
+~~~
+
+che darebbe: 
+
+| mother | numberof_hellsentcreatures |
+| :----: | :------------------------: |
+| Anna   | 2                          |
+| Maria  | 2                          |
+| Luisa  | 2                          |
+
+Ovviamente, non avrebbe senso ad esempio raggruppare un attributo e poi proiettarne anche un altro di cui sicuramente avrà più valori, per questo di solito nelle proiezioni delle group by solitamente si va solamente ad includere l'attributo raggruppato e eventuali operatori di aggregazione (solitamente il DBMS non lacia errori però associa casualmente uno dei valori presenti nell'attributo non raggrupato e non ha senso!).
+
+La clausola "having" si usa assieme alle group by e corrisponde alla clausola WHERE ma per ogni gruppo, easy.
+
+</details>
+
+# Conclusione
+
+Viste tutte le nozioni possibili, ci resta solo riassumere tutte la possibili clausole che possiamo inserire e in che ordine logico ci conviene usarle.
+
+~~~sql
+SELECT "attributi o aggregazioni" -- 7
+FROM "tabella" -- 1
+WHERE "condizioni" -- 2
+GROUP BY "attributo" -- 3
+HAVING "condizioni" -- 4
+ORDER BY "attributo" -- 5
+LIMIT "numero" -- 6
+~~~
