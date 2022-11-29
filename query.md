@@ -109,18 +109,18 @@ SELECT os.title, os.year, count(os.result) as conta
 FROM
  (SELECT *
  FROM movieawards as ma
- WHERE ma.award LIKE 'Am%' AND ma.result = 'won'
+ WHERE ma.award LIKE 'Oscar,%' AND ma.result = 'won'
  ) AS os
  GROUP BY os.title, os.year
 );
 
-SELECT ow.title, ow.year, max_os.maxx
+SELECT DISTINCT ow.title, ow.year
 FROM
 (SELECT max(oscar_won.conta) AS maxx
  FROM oscar_won) AS max_os
  JOIN oscar_won AS ow
  ON max_os.maxx = ow.conta
-ORDER BY ow.title, ow.year, max_os.maxx
+ORDER BY ow.title, ow.year
 ~~~
 
 Query 7:
