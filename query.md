@@ -77,7 +77,7 @@ ORDER BY award, year, director
 
 Query 5:
 ~~~ sql
-SELECT *
+SELECT DISTINCT *
 FROM
 ((SELECT won.title, won.year, ROUND(CAST(won.num_won AS NUMERIC) / nom.num_nom, 2) AS "tasso di successo"
   FROM
