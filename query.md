@@ -9,7 +9,7 @@ ORDER BY d.director
 ~~~
 Query 2:
 ~~~sql
-SELECT conta2.title, conta2.year
+SELECT DISTINCT conta2.title, conta2.year
 FROM
 (SELECT max(conta.year) AS maxx
  FROM
@@ -38,14 +38,14 @@ Query 3:
 ~~~ sql
 SELECT *
 FROM
-((SELECT m.title, m.year, COALESCE('least expensive') AS feature
+((SELECT DISTINCT m.title, m.year, COALESCE('least expensive') AS feature
   FROM
   (SELECT min(m.budget) AS least
    FROM movies AS m) AS minimo
    JOIN movies as m
    ON m.budget = minimo.least)
 UNION
-  (SELECT m.title, m.year, COALESCE('most profitable') AS feature
+  (SELECT DISTINCT m.title, m.year, COALESCE('most profitable') AS feature
    FROM
    (SELECT max(m.gross - m.budget) AS most
     FROM movies AS m) AS profitto
