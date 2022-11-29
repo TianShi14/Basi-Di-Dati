@@ -1,6 +1,6 @@
 Query 1:
 ~~~sql
-SELECT d.director, COALESCE(min(gross), -1), COALESCE(max(gross), -1), COALESCE(ROUND(avg(gross)), -1)
+SELECT DISTINCT d.director, COALESCE(min(gross - budget), -1) AS min, COALESCE(max(gross - budget), -1) AS max, COALESCE(ROUND(avg(gross - budget)), -1) AS avg
 FROM directors AS d LEFT OUTER JOIN movies AS m
 ON d.director = m.director
 WHERE 2022 - d.yearofbirth >= 50
