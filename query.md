@@ -56,17 +56,23 @@ ORDER BY res.title, res.year, res.feature
 
 Query 4:
 ~~~ sql
-SELECT da.award, da.year, dir.director
+SELECT *
 FROM
-(SELECT m.director
- FROM movies as m
- WHERE m.gross > 1 AND 2022 - m.year <= 5
- GROUP BY director) as dir
-JOIN 
-directorawards as da 
-ON dir.director = da.director
-WHERE da.result = 'won'
-ORDER BY da.award, da.year, dir.director;
+((SELECT da.award, da.year, dir.director
+ FROM 
+ (SELECT DISTINCT m.director
+  FROM movies AS m
+  WHERE m.gross > 1 AND 2022 - m.year < 5) as dir
+ JOIN directorawards AS da ON da.director = dir.director)
+UNION
+(SELECT ma.award, ma.year, dir.director
+ FROM 
+ movieawards as ma, movies as m,
+(SELECT DISTINCT m.director
+ FROM movies AS m
+ WHERE m.gross > 1 AND 2022 - m.year < 5) as dir
+WHERE ma.title = m.title AND ma.year = m.year AND m.director = dir.director AND ma.award LIKE '%, best director')) as pene
+ORDER BY award, year, director
 ~~~
 
 Query 5:
