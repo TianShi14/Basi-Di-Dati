@@ -162,19 +162,20 @@ Query 8:
 ~~~ sql
 SELECT 
 	CASE
-		WHEN numott <> 0 THEN ROUND(CAST(numos AS NUMERIC) / numott, 2) 
-		WHEN numott = 0 THEN -1 
+		WHEN num_film <> 0 THEN ROUND(CAST(num_osc AS NUMERIC) / num_film, 2) 
+		WHEN num_film = 0 THEN -1 
 	END percentuale
 FROM
-(SELECT count(*) as numott
+(SELECT count(*) as num_osc
  FROM
- (SELECT *
-  FROM movies as m
-  WHERE m.year >= 1980 AND m.year <= 1989
-  GROUP BY m.title, m.year) as eigthies) as eight,
-(SELECT count(*) AS numos
- FROM movies as m JOIN movieawards as ma ON m.title = ma.title AND m.year = ma.year
- WHERE m.year >= 1980 AND m.year <= 1989 AND ma.result = 'won' AND ma.award LIKE 'Oscar,%') as oscars;
+ (SELECT DISTINCT title, year -- film che hanno vinto due o più Oscar non vengono contati due o più volte
+  FROM movieawards AS ma
+  WHERE ma.year >= 1980 AND ma.year <= 1989 AND ma.award ILIKE 'Oscar,%' AND ma.result = 'won') AS osc) AS perc_osc,
+(SELECT count(*) as num_film
+ FROM 
+ (SELECT DISTINCT title, year
+  FROM movies AS m
+  WHERE m.year >= 1980 AND m.year <= 1989) AS mov) AS perc_mov;
 ~~~
 
 Query 9:
