@@ -125,33 +125,37 @@ ORDER BY ow.title, ow.year
 
 Query 7:
 ~~~ sql
-CREATE TEMP VIEW dir AS(
-SELECT d.director, d.yearofbirth as ye
-FROM 
-(movieawards as ma JOIN movies as m 
- ON ma.title = m.title AND ma.year = m.year) as moreno
-JOIN 
-directors as d 
-ON moreno.director = d.director
-WHERE moreno.award = 'Amanda, best foreign' AND moreno.result = 'nominated'
-GROUP BY d.director, d.yearofbirth);
+CREATE TEMP VIEW age AS(
+ SELECT d.yearofbirth AS year, d.director
+ FROM 
+ movieawards AS ma 
+ JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
+ JOIN directors AS d ON m.director = d.director
+ WHERE ma.award ILIKE 'Oscar, best director' AND ma.result = 'won'
+ UNION 
+ SELECT d.yearofbirth AS year, d.director
+ FROM directorawards AS da
+ JOIN directors AS d ON da.director = d.director
+ WHERE da.award ILIKE 'Oscar' AND da.result = 'won');
 
-SELECT director, feature
+SELECT DISTINCT *
 FROM
-(SELECT dir.director, COALESCE('youngest') AS feature
-FROM
-(SELECT max(dir.ye) as y
- FROM dir) as young
-JOIN dir
-ON dir.ye = young.y) as youngster
-UNION
-(SELECT dir.director, COALESCE('oldest') AS feature
-FROM
-(SELECT min(dir.ye) as y
- FROM dir) as older
-JOIN dir
-ON dir.ye = older.y)
-ORDER BY director, feature
+(-- youngest 
+ SELECT a.director, COALESCE('youngest') AS feature
+ FROM age AS a
+ JOIN (SELECT max(year) AS year
+       FROM age) AS young
+ ON a.year = young.year
+
+ UNION
+
+ -- oldest 
+ SELECT a.director, COALESCE('oldest') AS feature
+ FROM age AS a
+ JOIN (SELECT min(year) AS year
+ 	   FROM age) AS young
+ ON a.year = young.year) AS res
+ORDER BY res.director, res.feature
 ~~~
 
 Query 8: 
