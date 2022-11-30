@@ -188,27 +188,33 @@ ORDER BY m.director
 
 Query 10:
 ~~~ sql
-SELECT director
-FROM directorawards AS da
-JOIN
-(SELECT year
+CREATE TEMP VIEW years AS(
+ SELECT DISTINCT year
  FROM
- (SELECT m.title, m.year, count(ma.award) AS num_aw
+ (SELECT m.title, m.year, count(DISTINCT award) num_aw
   FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
   WHERE m.director ILIKE 'Spielberg' AND ma.result = 'won'
-  GROUP BY m.title, m.year) As spiel
- WHERE num_aw >= 3) AS years
-ON years.year = da.year AND da.result = 'won'
-UNION
-SELECT director
-FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
-JOIN
-(SELECT year
- FROM
- (SELECT m.title, m.year, count(ma.award) AS num_aw
-  FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
-  WHERE m.director ILIKE 'Spielberg' AND ma.result = 'won'
-  GROUP BY m.title, m.year) As spiel
- WHERE num_aw >= 3) AS years
-ON years.year = ma.year AND ma.result = 'won' AND ma.award ILIKE '%, best director'
+  GROUP BY m.title, m.year) AS spiel
+ WHERE spiel.num_aw >= 3
+);
+
+CREATE TEMP VIEW count_years AS(
+ SELECT count(year) AS num_y
+ FROM years
+);
+
+SELECT aw_py.director
+FROM
+(SELECT dir.director, count(DISTINCT dir.year) AS num_yaw
+ FROM 
+ (SELECT director, da.year
+  FROM years AS y JOIN directorawards AS da ON y.year = da.year AND da.result = 'won'
+  UNION
+  SELECT director, ma.year
+  FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year 
+  JOIN years ON ma.year = years.year
+  WHERE ma.result = 'won' AND ma.award ILIKE '%, best director') AS dir
+ GROUP BY dir.director) AS aw_py
+JOIN count_years AS cy ON aw_py.num_yaw = cy.num_y
+ORDER BY aw_py.director
 ~~~
