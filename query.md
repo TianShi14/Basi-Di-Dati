@@ -182,6 +182,6 @@ Query 9:
 ~~~ sql
 SELECT DISTINCT m.director
 FROM movies AS m JOIN movieawards AS ma ON m.title = ma.title AND m.year = ma.year
-WHERE ma.award LIKE '%miglior regista' AND ma.result = 'won' AND (m.gross - m.budget) <= 0
+WHERE (ma.award ILIKE '%miglior regista' OR ma.award ILIKE '%best director') AND ma.result = 'won' AND (m.gross - m.budget) <= 0
 ORDER BY m.director 
 ~~~
