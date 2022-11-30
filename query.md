@@ -200,7 +200,7 @@ JOIN
  WHERE num_aw >= 3) AS years
 ON years.year = da.year AND da.result = 'won'
 UNION
-SELECT *
+SELECT director
 FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
 JOIN
 (SELECT year
