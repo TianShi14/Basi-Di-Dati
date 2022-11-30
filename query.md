@@ -185,3 +185,30 @@ FROM movies AS m JOIN movieawards AS ma ON m.title = ma.title AND m.year = ma.ye
 WHERE (ma.award ILIKE '%miglior regista' OR ma.award ILIKE '%best director') AND ma.result = 'won' AND (m.gross - m.budget) <= 0
 ORDER BY m.director 
 ~~~
+
+Query 10:
+~~~ sql
+SELECT director
+FROM directorawards AS da
+JOIN
+(SELECT year
+ FROM
+ (SELECT m.title, m.year, count(ma.award) AS num_aw
+  FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
+  WHERE m.director ILIKE 'Spielberg' AND ma.result = 'won'
+  GROUP BY m.title, m.year) As spiel
+ WHERE num_aw >= 3) AS years
+ON years.year = da.year AND da.result = 'won'
+UNION
+SELECT *
+FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
+JOIN
+(SELECT year
+ FROM
+ (SELECT m.title, m.year, count(ma.award) AS num_aw
+  FROM movieawards AS ma JOIN movies AS m ON ma.title = m.title AND ma.year = m.year
+  WHERE m.director ILIKE 'Spielberg' AND ma.result = 'won'
+  GROUP BY m.title, m.year) As spiel
+ WHERE num_aw >= 3) AS years
+ON years.year = ma.year AND ma.result = 'won' AND ma.award ILIKE '%, best director'
+~~~
